@@ -1,5 +1,6 @@
 package br.com.sistemaagricola.controller;
 
+import br.com.sistemaagricola.models.helpers.Supplier;
 import br.com.sistemaagricola.services.InventoryManager;
 
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class MenuController {
             String option = input.nextLine();
 
             try {
-
+                processOption(option);
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro: " + e.getMessage());
             } catch (Exception e) {
@@ -63,7 +64,16 @@ public class MenuController {
     }
 
     private void registerSupplier() {
+        System.out.print("Digite o CNPJ da empresa: ");
+        String cnpj = input.nextLine();
 
+        System.out.print("Digite o nome da empresa: ");
+        String name = input.nextLine();
+
+        System.out.print("Digite o tempo de entrega em dias (somente número): ");
+        int days = Integer.parseInt(input.nextLine());
+
+        manager.registerSupplier(new Supplier(cnpj, name, days));
     }
 
     private void registerProduct() {
@@ -71,7 +81,7 @@ public class MenuController {
     }
 
     private void listProducts() {
-
+        manager.listAllProducts();
     }
 
     private void validateManager(InventoryManager manager) {
