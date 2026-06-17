@@ -48,12 +48,23 @@ public class InventoryManager {
         return new ArrayList<>(catalog.values());
     }
 
-    // 5. Registrar Ação no Histórico (Mantendo apenas as últimas 10)
     private void registerAction(String action) {
         if (history.size() == 10) {
             history.poll();
         }
         history.add(action);
+    }
+
+    public Map<UUID, Product> getCatalog() {
+        return catalog;
+    }
+
+    public Set<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public LinkedList<String> getHistory() {
+        return history;
     }
 
 }

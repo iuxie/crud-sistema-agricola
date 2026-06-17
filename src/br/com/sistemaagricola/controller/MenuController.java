@@ -1,8 +1,11 @@
 package br.com.sistemaagricola.controller;
 
 import br.com.sistemaagricola.models.helpers.Supplier;
+import br.com.sistemaagricola.models.subclasses.Seed;
+import br.com.sistemaagricola.models.superclasses.Product;
 import br.com.sistemaagricola.services.InventoryManager;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MenuController {
@@ -10,12 +13,14 @@ public class MenuController {
     private final InventoryManager manager;
     private boolean running;
     private Scanner input;
+    private Supplier supplier;
 
     public MenuController(InventoryManager manager) {
         validateManager(manager);
         this.manager = manager;
         this.running = true;
         this.input = new Scanner(System.in);
+        this.supplier = null;
     }
 
     public void start() {
@@ -77,11 +82,89 @@ public class MenuController {
     }
 
     private void registerProduct() {
+        System.out.println("\nQual tipo de produto deseja cadastrar? ");
+        System.out.println("1 - Insumo");
+        System.out.println("2 - Equipamento");
+        System.out.print("Escolha sua opção: ");
 
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                chooseSupply();
+                break;
+            case "2":
+                chooseEquipment();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
 
     private void listProducts() {
-        manager.listAllProducts();
+        int count = 1;
+        System.out.println("\n==== Lista de Produtos ====");
+        for (Product p : manager.listAllProducts()) {
+            System.out.println(count + " - " + p.toString());
+        }
+    }
+
+    private void chooseSupply() {
+        System.out.println("\nQual o tipo de Insumo?");
+        System.out.println("1 - Semente");
+        System.out.println("2 - Fertilizante");
+        System.out.print("Escolha sua opção: ");
+
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                createSeed();
+                break;
+            case "2":
+                createFertilizer();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+    private void createSeed() {
+        System.out.print("Digite o nome da Semente: ");
+        String name = input.nextLine();
+
+        System.out.print("Digite o preço base da Semente: ");
+        double basePrice = Double.parseDouble(input.nextLine());
+
+        System.out.print("Digite a quantidade de Sementes: ");
+        int quantity = Integer.parseInt(input.nextLine());
+
+        System.out.print("Informe o CNPJ do fornecedor: ");
+        String cnpj = input.nextLine();
+
+        for (Supplier s : manager.getSuppliers()) {
+            if (s.hashCode() == cnpj.hashCode()) {
+                supplier = s;
+            } else {
+                throw new IllegalArgumentException("Supplier don't exist.");
+            }
+        }
+
+        System.out.print("Digite a data de fabricação da Semente (yyyy-mm-dd): ");
+        LocalDate date = LocalDate.parse(input.nextLine());
+
+        System.out.print("Digite a taxa de germinação da Semente: ");
+        int tax = Integer.parseInt(input.nextLine());
+
+        manager.addProduct(new Seed(name, basePrice, quantity, supplier, date, tax));
+    }
+
+    private void createFertilizer() {
+
+    }
+
+    private void chooseEquipment() {
+
     }
 
     private void validateManager(InventoryManager manager) {
