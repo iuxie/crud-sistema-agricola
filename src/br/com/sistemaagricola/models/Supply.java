@@ -36,4 +36,9 @@ public abstract class Supply extends Product implements Perishable {
         return getExpirationDate().isBefore(LocalDate.now());
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " | Data de fabricacao: " + manufacturingDate;
+    }
+
 }
