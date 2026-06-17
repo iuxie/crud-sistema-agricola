@@ -1,4 +1,6 @@
-package br.com.sistemaagricola.models;
+package br.com.sistemaagricola.models.superclasses;
+
+import br.com.sistemaagricola.models.Supplier;
 
 import java.util.Objects;
 import java.util.UUID;

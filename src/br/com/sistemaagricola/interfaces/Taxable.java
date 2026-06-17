@@ -2,6 +2,7 @@ package br.com.sistemaagricola.interfaces;
 
 public interface Taxable {
 
-    void calculateTax();
+    double calculateTax();
+    double getPriceWithTax();
 
 }
