@@ -1,7 +1,7 @@
 package br.com.sistemaagricola.models.superclasses;
 
 import br.com.sistemaagricola.interfaces.Taxable;
-import br.com.sistemaagricola.models.Supplier;
+import br.com.sistemaagricola.models.helpers.Supplier;
 
 public abstract class Equipment extends Product implements Taxable {
 

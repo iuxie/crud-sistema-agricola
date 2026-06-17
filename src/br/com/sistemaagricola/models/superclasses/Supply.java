@@ -1,7 +1,7 @@
 package br.com.sistemaagricola.models.superclasses;
 
 import br.com.sistemaagricola.interfaces.Perishable;
-import br.com.sistemaagricola.models.Supplier;
+import br.com.sistemaagricola.models.helpers.Supplier;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

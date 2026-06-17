@@ -1,6 +1,6 @@
 package br.com.sistemaagricola.models.subclasses;
 
-import br.com.sistemaagricola.models.Supplier;
+import br.com.sistemaagricola.models.helpers.Supplier;
 import br.com.sistemaagricola.models.superclasses.Supply;
 
 import java.time.LocalDate;

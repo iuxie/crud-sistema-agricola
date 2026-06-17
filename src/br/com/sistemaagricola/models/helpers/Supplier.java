@@ -1,4 +1,4 @@
-package br.com.sistemaagricola.models;
+package br.com.sistemaagricola.models.helpers;
 
 import java.util.Objects;
 
