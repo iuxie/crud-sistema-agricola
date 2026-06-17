@@ -3,7 +3,7 @@ package br.com.sistemaagricola.models;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Product {
+public abstract class Product {
 
     private final UUID id;
     private final String name;
