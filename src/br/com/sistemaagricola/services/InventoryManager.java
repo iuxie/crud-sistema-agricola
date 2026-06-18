@@ -40,6 +40,15 @@ public class InventoryManager {
         return product;
     }
 
+    public Supplier findSupplierByCnpj(String cnpj) {
+        for (Supplier s : suppliers) {
+            if (s.getCnpj().equals(cnpj)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("Supplier don't exist.");
+    }
+
     public List<Product> listAllProducts() {
         if (catalog.isEmpty()) {
             return Collections.emptyList();

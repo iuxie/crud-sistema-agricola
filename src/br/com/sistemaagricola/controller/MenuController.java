@@ -16,14 +16,12 @@ public class MenuController {
     private final InventoryManager manager;
     private boolean running;
     private final Scanner input;
-    private Supplier supplier;
 
     public MenuController(InventoryManager manager) {
         validateManager(manager);
         this.manager = manager;
         this.running = true;
         this.input = new Scanner(System.in);
-        this.supplier = null;
     }
 
     public void start() {
@@ -154,17 +152,7 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
-        supplier = null;
-
-        for (Supplier s : manager.getSuppliers()) {
-            if (s.getCnpj().equals(cnpj)) {
-                supplier = s;
-            }
-        }
-
-        if (supplier == null) {
-            throw new IllegalArgumentException("Supplier don't exist.");
-        }
+        Supplier localSupplier = manager.findSupplierByCnpj(cnpj);
 
         System.out.print("Digite a data de fabricação da Semente (yyyy-mm-dd): ");
         LocalDate date = LocalDate.parse(input.nextLine());
@@ -172,7 +160,7 @@ public class MenuController {
         System.out.print("Digite a taxa de germinação da Semente: ");
         int tax = Integer.parseInt(input.nextLine());
 
-        manager.addProduct(new Seed(name, basePrice, quantity, supplier, date, tax));
+        manager.addProduct(new Seed(name, basePrice, quantity, localSupplier, date, tax));
     }
 
     private void createFertilizer() {
@@ -188,17 +176,7 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
-        supplier = null;
-
-        for (Supplier s : manager.getSuppliers()) {
-            if (s.getCnpj().equals(cnpj)) {
-                supplier = s;
-            }
-        }
-
-        if (supplier == null) {
-            throw new IllegalArgumentException("Supplier don't exist.");
-        }
+        Supplier localSupplier = manager.findSupplierByCnpj(cnpj);
 
         System.out.print("Digite a data de fabricação do Fertilizante (yyyy-mm-dd): ");
         LocalDate date = LocalDate.parse(input.nextLine());
@@ -206,7 +184,7 @@ public class MenuController {
         System.out.print("Digite o nível de toxicidade do Fertilizante: ");
         int toxicity = Integer.parseInt(input.nextLine());
 
-        manager.addProduct(new Fertilizer(name, basePrice, quantity, supplier, date, toxicity));
+        manager.addProduct(new Fertilizer(name, basePrice, quantity, localSupplier, date, toxicity));
     }
 
     private void chooseEquipment() {
@@ -246,22 +224,12 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
-        supplier = null;
-
-        for (Supplier s : manager.getSuppliers()) {
-            if (s.getCnpj().equals(cnpj)) {
-                supplier = s;
-            }
-        }
-
-        if (supplier == null) {
-            throw new IllegalArgumentException("Supplier don't exist.");
-        }
+        Supplier localSupplier = manager.findSupplierByCnpj(cnpj);
 
         System.out.print("Digite o material da Ferramenta Manual:  ");
         String material = input.nextLine();
 
-        manager.addProduct(new HandTool(name, basePrice, quantity, supplier, material));
+        manager.addProduct(new HandTool(name, basePrice, quantity, localSupplier, material));
     }
 
     private void createHeavyMachinery() {
@@ -277,22 +245,12 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
-        supplier = null;
-
-        for (Supplier s : manager.getSuppliers()) {
-            if (s.getCnpj().equals(cnpj)) {
-                supplier = s;
-            }
-        }
-
-        if (supplier == null) {
-            throw new IllegalArgumentException("Supplier don't exist.");
-        }
+        Supplier localSupplier = manager.findSupplierByCnpj(cnpj);
 
         System.out.print("Digite o Chassi do Maquinário:  ");
         String chassi = input.nextLine();
 
-        manager.addProduct(new HeavyMachinery(name, basePrice, quantity, supplier, chassi));
+        manager.addProduct(new HeavyMachinery(name, basePrice, quantity, localSupplier, chassi));
     }
 
     private void validateManager(InventoryManager manager) {
