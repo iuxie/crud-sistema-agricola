@@ -88,6 +88,7 @@ public class MenuController {
         System.out.println("\nQual tipo de produto deseja cadastrar? ");
         System.out.println("1 - Insumo");
         System.out.println("2 - Equipamento");
+        System.out.println("3 - Voltar");
         System.out.print("Escolha sua opção: ");
 
         String option = input.nextLine();
@@ -98,6 +99,8 @@ public class MenuController {
                 break;
             case "2":
                 chooseEquipment();
+                break;
+            case "3":
                 break;
             default:
                 System.out.println("Opção inválida.");
@@ -116,6 +119,7 @@ public class MenuController {
         System.out.println("\nQual o tipo de Insumo?");
         System.out.println("1 - Semente");
         System.out.println("2 - Fertilizante");
+        System.out.println("3 - Voltar");
         System.out.print("Escolha sua opção: ");
 
         String option = input.nextLine();
@@ -126,6 +130,9 @@ public class MenuController {
                 break;
             case "2":
                 createFertilizer();
+                break;
+            case "3":
+                registerProduct();
                 break;
             default:
                 System.out.println("Opção inválida.");
