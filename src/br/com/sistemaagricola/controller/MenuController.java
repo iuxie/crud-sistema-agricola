@@ -1,6 +1,7 @@
 package br.com.sistemaagricola.controller;
 
 import br.com.sistemaagricola.models.helpers.Supplier;
+import br.com.sistemaagricola.models.subclasses.Fertilizer;
 import br.com.sistemaagricola.models.subclasses.Seed;
 import br.com.sistemaagricola.models.superclasses.Product;
 import br.com.sistemaagricola.services.InventoryManager;
@@ -12,7 +13,7 @@ public class MenuController {
 
     private final InventoryManager manager;
     private boolean running;
-    private Scanner input;
+    private final Scanner input;
     private Supplier supplier;
 
     public MenuController(InventoryManager manager) {
@@ -38,6 +39,7 @@ public class MenuController {
                 System.out.println("Erro inesperado: " + e.getMessage());
             }
         }
+        System.out.println("Finalizando o programa...");
     }
 
     private void showMenu() {
@@ -62,6 +64,7 @@ public class MenuController {
                 break;
             case "4":
                 running = false;
+                break;
             default:
                 System.out.println("Opção inválida. Tente novamente.");
                 break;
@@ -160,7 +163,33 @@ public class MenuController {
     }
 
     private void createFertilizer() {
+        System.out.print("Digite o nome do Fertilizante: ");
+        String name = input.nextLine();
 
+        System.out.print("Digite o preço base do Fertilizante: ");
+        double basePrice = Double.parseDouble(input.nextLine());
+
+        System.out.print("Digite a quantidade de Fertilizantes: ");
+        int quantity = Integer.parseInt(input.nextLine());
+
+        System.out.print("Informe o CNPJ do fornecedor: ");
+        String cnpj = input.nextLine();
+
+        for (Supplier s : manager.getSuppliers()) {
+            if (s.hashCode() == cnpj.hashCode()) {
+                supplier = s;
+            } else {
+                throw new IllegalArgumentException("Supplier don't exist.");
+            }
+        }
+
+        System.out.print("Digite a data de fabricação do Fertilizante (yyyy-mm-dd): ");
+        LocalDate date = LocalDate.parse(input.nextLine());
+
+        System.out.print("Digite o nível de toxicidade do Fertilizante: ");
+        int toxicity = Integer.parseInt(input.nextLine());
+
+        manager.addProduct(new Fertilizer(name, basePrice, quantity, supplier, date, toxicity));
     }
 
     private void chooseEquipment() {
