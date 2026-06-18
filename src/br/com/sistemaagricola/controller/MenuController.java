@@ -2,6 +2,8 @@ package br.com.sistemaagricola.controller;
 
 import br.com.sistemaagricola.models.helpers.Supplier;
 import br.com.sistemaagricola.models.subclasses.Fertilizer;
+import br.com.sistemaagricola.models.subclasses.HandTool;
+import br.com.sistemaagricola.models.subclasses.HeavyMachinery;
 import br.com.sistemaagricola.models.subclasses.Seed;
 import br.com.sistemaagricola.models.superclasses.Product;
 import br.com.sistemaagricola.services.InventoryManager;
@@ -43,7 +45,7 @@ public class MenuController {
     }
 
     private void showMenu() {
-        System.out.println("\n--- MENU PRINCIPAL ---");
+        System.out.println("\n==== Menu Principal ====");
         System.out.println("1. Registar Fornecedor");
         System.out.println("2. Adicionar Produto ao Catálogo");
         System.out.println("3. Listar Todos os Produtos");
@@ -82,6 +84,7 @@ public class MenuController {
         int days = Integer.parseInt(input.nextLine());
 
         manager.registerSupplier(new Supplier(cnpj, name, days));
+        System.out.println("Fornecedor de CNPJ: " + cnpj + " adicionado.");
     }
 
     private void registerProduct() {
@@ -108,10 +111,9 @@ public class MenuController {
     }
 
     private void listProducts() {
-        int count = 1;
         System.out.println("\n==== Lista de Produtos ====");
         for (Product p : manager.listAllProducts()) {
-            System.out.println(count + " - " + p.toString());
+            System.out.println(p.getId() + " - " + p.toString());
         }
     }
 
@@ -152,12 +154,16 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
+        supplier = null;
+
         for (Supplier s : manager.getSuppliers()) {
-            if (s.hashCode() == cnpj.hashCode()) {
+            if (s.getCnpj().equals(cnpj)) {
                 supplier = s;
-            } else {
-                throw new IllegalArgumentException("Supplier don't exist.");
             }
+        }
+
+        if (supplier == null) {
+            throw new IllegalArgumentException("Supplier don't exist.");
         }
 
         System.out.print("Digite a data de fabricação da Semente (yyyy-mm-dd): ");
@@ -182,12 +188,16 @@ public class MenuController {
         System.out.print("Informe o CNPJ do fornecedor: ");
         String cnpj = input.nextLine();
 
+        supplier = null;
+
         for (Supplier s : manager.getSuppliers()) {
-            if (s.hashCode() == cnpj.hashCode()) {
+            if (s.getCnpj().equals(cnpj)) {
                 supplier = s;
-            } else {
-                throw new IllegalArgumentException("Supplier don't exist.");
             }
+        }
+
+        if (supplier == null) {
+            throw new IllegalArgumentException("Supplier don't exist.");
         }
 
         System.out.print("Digite a data de fabricação do Fertilizante (yyyy-mm-dd): ");
@@ -200,7 +210,89 @@ public class MenuController {
     }
 
     private void chooseEquipment() {
+        System.out.println("\nQual o tipo de Equipamento?");
+        System.out.println("1 - Ferramenta Manual");
+        System.out.println("2 - Maquinário Pesado");
+        System.out.println("3 - Voltar");
+        System.out.print("Escolha sua opção: ");
 
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                createHandTool();
+                break;
+            case "2":
+                createHeavyMachinery();
+                break;
+            case "3":
+                registerProduct();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+    private void createHandTool() {
+        System.out.print("Digite o nome da Ferramenta Manual: ");
+        String name = input.nextLine();
+
+        System.out.print("Digite o preço base da Ferramenta Manual: ");
+        double basePrice = Double.parseDouble(input.nextLine());
+
+        System.out.print("Digite a quantidade de Ferramentas Manuais: ");
+        int quantity = Integer.parseInt(input.nextLine());
+
+        System.out.print("Informe o CNPJ do fornecedor: ");
+        String cnpj = input.nextLine();
+
+        supplier = null;
+
+        for (Supplier s : manager.getSuppliers()) {
+            if (s.getCnpj().equals(cnpj)) {
+                supplier = s;
+            }
+        }
+
+        if (supplier == null) {
+            throw new IllegalArgumentException("Supplier don't exist.");
+        }
+
+        System.out.print("Digite o material da Ferramenta Manual:  ");
+        String material = input.nextLine();
+
+        manager.addProduct(new HandTool(name, basePrice, quantity, supplier, material));
+    }
+
+    private void createHeavyMachinery() {
+        System.out.print("Digite o nome do Maquinário: ");
+        String name = input.nextLine();
+
+        System.out.print("Digite o preço base do Maquinário: ");
+        double basePrice = Double.parseDouble(input.nextLine());
+
+        System.out.print("Digite a quantidade de Maquinários: ");
+        int quantity = Integer.parseInt(input.nextLine());
+
+        System.out.print("Informe o CNPJ do fornecedor: ");
+        String cnpj = input.nextLine();
+
+        supplier = null;
+
+        for (Supplier s : manager.getSuppliers()) {
+            if (s.getCnpj().equals(cnpj)) {
+                supplier = s;
+            }
+        }
+
+        if (supplier == null) {
+            throw new IllegalArgumentException("Supplier don't exist.");
+        }
+
+        System.out.print("Digite o Chassi do Maquinário:  ");
+        String chassi = input.nextLine();
+
+        manager.addProduct(new HeavyMachinery(name, basePrice, quantity, supplier, chassi));
     }
 
     private void validateManager(InventoryManager manager) {

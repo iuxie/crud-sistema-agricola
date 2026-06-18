@@ -28,7 +28,7 @@ public abstract class Equipment extends Product implements Taxable {
 
     @Override
     public String toString() {
-        return super.toString() + " | Tipo do Equipamento: " + equipmentType;
+        return super.toString() + " | Tipo do Equipamento: " + equipmentType + " | Preco da Taxa: " + calculateTax();
     }
 
 }
